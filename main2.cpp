@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "InsertionSort.h"
+#include "BubbleSort.h"
 
 //For research use to calculate run times
 #include "Complexity_Recorder.hpp"
@@ -13,7 +14,7 @@ int main(int argc, char* argv[])
 {
     int numberOfElements = 100;
 
-    const int number_of_algorithms = 1;
+    const int number_of_algorithms = 3;
 
     std::vector<recorder<timer>> stats(number_of_algorithms);
 
@@ -21,6 +22,8 @@ int main(int argc, char* argv[])
 
     //timer
 	timer timer1;
+	timer timer2;
+	timer timer3;
 
 	//Get the number of elements to be tested
 	if(argc==1)
@@ -41,7 +44,7 @@ int main(int argc, char* argv[])
 
     for(int i=0; i < numberOfElements; i++)
     {
-        Array[i] = rand() % 10000;
+        Array[i] = rand() % 100000;
     }
 
     timer1.restart();
@@ -54,6 +57,40 @@ int main(int argc, char* argv[])
 
     std::cout<<"Our insertion sort: ";
 	stats[0].report(cout,numberOfElements);
+	std::cout<<std::endl;
+
+    for(int i=0; i < numberOfElements; i++)
+    {
+        Array[i] = rand() % 100000;
+    }
+
+    timer2.restart();
+
+    std::sort(Array, Array + numberOfElements);
+
+	timer2.stop();
+
+	stats[1].record(timer2);
+
+    std::cout<<"STL's std::sort(): ";
+	stats[1].report(cout,numberOfElements);
+	std::cout<<std::endl;
+
+    for(int i=0; i < numberOfElements; i++)
+    {
+        Array[i] = rand() % 100000;
+    }
+
+    timer3.restart();
+
+    BubbleSort(Array,numberOfElements);
+
+	timer3.stop();
+
+	stats[2].record(timer3);
+
+    std::cout<<"Book's BubbleSort(): ";
+	stats[2].report(cout,numberOfElements);
 	std::cout<<std::endl;
 
     return 0;
